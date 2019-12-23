@@ -1,0 +1,10 @@
+Thanks to maker of NOSE.svg
+
+  cupertino_icons: ^0.1.2
+  font_awesome_flutter: ^8.5.0
+  rxdart: ^0.22.1+1
+  flutter_bloc: ^0.20.1
+  equatable: ^0.4.0
+  dotted_border: ^1.0.2
+  flutter_svg: ^0.14.0
+  flutter_tts: ^0.2.6
