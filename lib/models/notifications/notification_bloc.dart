@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:project_nash_equilibrium/models/notifications/notification.dart';
-import 'package:project_nash_equilibrium/models/repository.dart';
+import 'package:project_nash_equilibrium/models/repositories/repository.dart';
 
 import './bloc.dart';
 

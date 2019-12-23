@@ -19,7 +19,7 @@ class ActiveWorkoutBloc extends Bloc<ActiveWorkoutEvent, ActiveWorkoutState> {
     ActiveWorkoutEvent event,
   ) async* {
     if (event is Decrement) {
-      var currentState = this.currentState as Counting;
+      var currentState = state as Counting;
       var newCount = currentState.counting - 1;
       yield Counting(newCount, currentState.currentSet);
 
@@ -28,13 +28,13 @@ class ActiveWorkoutBloc extends Bloc<ActiveWorkoutEvent, ActiveWorkoutState> {
       }
 
       if (newCount == 0 && currentState.currentSet < workout.set.length - 1) {
-        var currentState = this.currentState as Counting;
+        var currentState = state as Counting;
         yield Pause(currentState.counting, currentState.currentSet);
       }
 
     }
       else if (event is NotifyPauseFinished) {
-        var currentState = this.currentState as Pause;
+        var currentState = state as Pause;
         var updateSetIndex = currentState.currentSet + 1;
         yield Counting(workout.set[updateSetIndex], updateSetIndex);
     }

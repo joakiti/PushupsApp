@@ -18,11 +18,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   PageController controller;
 
-  List<MainPageInterface> get pages => [NotificationPage(), SetPage()];
+  List<MainPageInterface> get pages => [NotificationPage(), SetPage(), ];
 
   @override
   void initState() {
-    controller = PageController(initialPage: BlocProvider.of<MainPageBloc>(context).currentState.index);
+    controller = PageController(initialPage: BlocProvider.of<MainPageBloc>(context).state.index);
     super.initState();
   }
 
@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
                   child: PageView(
                       onPageChanged: (pageIndex) {
                         BlocProvider.of<MainPageBloc>(context)
-                            .dispatch(PageChanged(pageIndex));
+                            .add(PageChanged(pageIndex));
                       },
                       controller: controller,
                       children: pages),
@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> {
                     builder: (BuildContext context, MainPageState state) {
 
                       MainPageState state =
-                          BlocProvider.of<MainPageBloc>(context).currentState;
+                          BlocProvider.of<MainPageBloc>(context).state;
                       return pages[state.index].buildButton(context);
                     },
                   ),

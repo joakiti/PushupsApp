@@ -169,7 +169,7 @@ class _NoseAreaCardState extends State<NoseAreaCard> {
 
   void dispatchTap(BuildContext context) {
     if (canPushDown) {
-      BlocProvider.of<ActiveWorkoutBloc>(context).dispatch(Decrement());
+      BlocProvider.of<ActiveWorkoutBloc>(context).add(Decrement());
       HapticFeedback.vibrate();
       //TODO: dont use setState
       this.setState(() => {

@@ -67,7 +67,7 @@ class _SetPageState extends State<SetPage>
       bloc: BlocProvider.of<WorkoutBloc>(context),
       builder: (BuildContext context, WorkoutState state) {
         if (state is WorkoutInitial) {
-          BlocProvider.of<WorkoutBloc>(context).dispatch(GetWorkout());
+          BlocProvider.of<WorkoutBloc>(context).add(GetWorkout());
           return Container();
         } else if (state is WorkoutLoading) {
           return _buildLoading();

@@ -6,8 +6,9 @@ import 'helpers/colors.dart';
 import 'models/mainpage/bloc.dart';
 import 'models/notifications/bloc.dart';
 import 'models/sets/bloc.dart';
+import 'pages/sign_in/simple_bloc_delegate.dart';
 
-void main() => runApp(MyApp());
+void main() => {runApp(MyApp())};
 
 class MyApp extends StatelessWidget {
   final MainPageBloc _mainPageBloc = MainPageBloc();
@@ -29,23 +30,23 @@ class MyApp extends StatelessWidget {
           home: SafeArea(child: MainPage()),
           routes: <String, WidgetBuilder>{
             '/notifications': (BuildContext context) {
-              _mainPageBloc.dispatch(PageChanged(0));
+              _mainPageBloc.add(PageChanged(0));
               return MainPage();
             },
             '/sets': (BuildContext context) {
-              _mainPageBloc.dispatch(PageChanged(1));
+              _mainPageBloc.add(PageChanged(1));
               return MainPage();
             },
           }),
       providers: <BlocProvider>[
         BlocProvider<MainPageBloc>(
-          builder: (BuildContext context) => _mainPageBloc,
+          create: (BuildContext context) => _mainPageBloc,
         ),
         BlocProvider<NotificationBloc>(
-          builder: (BuildContext context) => _notificationPageBloc,
+          create: (BuildContext context) => _notificationPageBloc,
         ),
         BlocProvider<WorkoutBloc>(
-          builder: (BuildContext context) => _workoutBlocPageBloc,
+          create: (BuildContext context) => _workoutBlocPageBloc,
         ),
       ],
     );

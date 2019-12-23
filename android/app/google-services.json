@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "24746418699",
+    "firebase_url": "https://nash-equil.firebaseio.com",
+    "project_id": "nash-equil",
+    "storage_bucket": "nash-equil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24746418699:android:d04a616857505cae96dd0e",
+        "android_client_info": {
+          "package_name": "probably.the.best.url.you.will.ever.find"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24746418699-ktenstljtp2amkm56ep6cmcu31mvgg4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA73iLDTLA3Hnp92hBJIxTXY-IBz5hV9Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24746418699-ktenstljtp2amkm56ep6cmcu31mvgg4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

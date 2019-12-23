@@ -1,6 +1,6 @@
+import 'package:project_nash_equilibrium/models/notifications/notification.dart';
 import 'package:project_nash_equilibrium/models/sets/sets.dart';
 
-import 'notifications/notification.dart';
 
 class Repository {
   static Future<Sets> getSets() async {

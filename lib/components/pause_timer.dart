@@ -19,7 +19,7 @@ class _TimerBreakWidgetState extends State<TimerBreakWidget> {
   void initState() {
     // TODO: implement initState
     _timerBloc = BlocProvider.of<TimerBloc>(context);
-    _timerBloc.dispatch(Start(duration: 30));
+    _timerBloc.add(Start(duration: 30));
     super.initState();
   }
 
@@ -33,7 +33,7 @@ class _TimerBreakWidgetState extends State<TimerBreakWidget> {
         }
       },
       child: BlocProvider(
-          builder: (BuildContext context) => _timerBloc, child: Timer()),
+          create: (BuildContext context) => _timerBloc, child: Timer()),
     );
   }
 }

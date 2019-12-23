@@ -29,11 +29,11 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
   }
 
   Future<void> pauseTimerAndDisplayBackWarning(BuildContext context) {
-    if (!(_timerBloc.currentState is Paused)) {
-      _timerBloc.dispatch(PauseTimer());
+    if (!(_timerBloc.state is Paused)) {
+      _timerBloc.add(PauseTimer());
     }
     return requestPop(context)
-        .whenComplete(() => _timerBloc.dispatch(Resume()));
+        .whenComplete(() => _timerBloc.add(Resume()));
   }
 
   @override
@@ -137,10 +137,10 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
                 child: Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: BlocProvider(
-                      builder: (BuildContext context) => _timerBloc,
+                      create: (BuildContext context) => _timerBloc,
                       child: TimerBreakWidget(
                         onFinish: () {
-                          awb.dispatch(NotifyPauseFinished());
+                          awb.add(NotifyPauseFinished());
                         },
                       ),
                     )),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_nash_equilibrium/helpers/helpers.dart';
-import 'package:project_nash_equilibrium/models/repository.dart';
+import 'package:project_nash_equilibrium/models/repositories/repository.dart';
 
 class LevelsPage extends StatefulWidget {
   LevelsPage(this._repository);

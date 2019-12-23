@@ -68,7 +68,7 @@ class _NotificationPageState extends State<NotificationPage>
       builder: (BuildContext context, NotificationState state) {
         if (state is NotificationInitial) {
           BlocProvider.of<NotificationBloc>(context)
-              .dispatch(GetNotification());
+              .add(GetNotification());
           return Container();
         } else if (state is NotificationLoading) {
           return _buildLoading();
