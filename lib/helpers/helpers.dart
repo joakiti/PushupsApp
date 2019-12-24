@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:project_nash_equilibrium/models/bloc.dart';
+import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
 
 class PageHelper {
   //This method must be called inside a column, for which it returns a list of widgets.
@@ -12,17 +15,15 @@ class PageHelper {
             SizedBox(
               width: 20.0,
             ),
-            Text("MIKKEL KAJ ANDERSEN",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic)),
+            EmailTextAsText(),
             Spacer(),
             IconButton(
               icon: Icon(FontAwesomeIcons.cog),
               color: Theme.of(context).primaryColor,
               onPressed: () {
-                print("Pressed a header button");
+                BlocProvider.of<AuthenticationBloc>(context).add(
+                  LoggedOut(),
+                );
               },
             ),
             SizedBox(
@@ -72,5 +73,29 @@ class PageHelper {
             onPressed: () => func(),
           )),
     );
+  }
+}
+
+class EmailTextAsText extends StatefulWidget {
+  @override
+  _EmailTextAsTextState createState() => _EmailTextAsTextState();
+}
+
+class _EmailTextAsTextState extends State<EmailTextAsText> {
+  String _textFromFile = "";
+
+  _EmailTextAsTextState() {
+    UserRepository().getUser().then((val) => setState(() {
+          _textFromFile = val;
+        }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(_textFromFile,
+        style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic));
   }
 }

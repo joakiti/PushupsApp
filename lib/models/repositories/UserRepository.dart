@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -12,8 +11,7 @@ class UserRepository {
 
   Future<FirebaseUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -46,6 +44,16 @@ class UserRepository {
   Future<bool> isSignedIn() async {
     final currentUser = await _firebaseAuth.currentUser();
     return currentUser != null;
+  }
+
+  Future<bool> resetUserPassword(FirebaseUser user) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: user.email);
+      return true;
+    }
+    catch (_) {
+      return false;
+    }
   }
 
   Future<String> getUser() async {

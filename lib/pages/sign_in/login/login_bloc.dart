@@ -17,7 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   LoginState get initialState => LoginState.empty();
-  
+
   /**
   @override
   Stream<LoginState> transform(
@@ -66,7 +66,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithGoogle();
       yield LoginState.success();
-    } catch (_) {
+    } catch (exception) {
+      print(exception);
       yield LoginState.failure();
     }
   }

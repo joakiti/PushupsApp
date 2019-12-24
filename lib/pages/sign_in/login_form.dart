@@ -9,10 +9,9 @@ import 'register_screen.dart';
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
 
-  LoginForm({Key key, @required UserRepository userRepository})
+  LoginForm({@required UserRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
+        _userRepository = userRepository;
 
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -166,12 +165,11 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 }
+
 class LoginButton extends StatelessWidget {
   final VoidCallback _onPressed;
 
-  LoginButton({Key key, VoidCallback onPressed})
-      : _onPressed = onPressed,
-        super(key: key);
+  LoginButton({VoidCallback onPressed}) : _onPressed = onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -203,13 +201,13 @@ class GoogleLoginButton extends StatelessWidget {
     );
   }
 }
+
 class CreateAccountButton extends StatelessWidget {
   final UserRepository _userRepository;
 
-  CreateAccountButton({Key key, @required UserRepository userRepository})
+  CreateAccountButton({@required UserRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
+        _userRepository = userRepository;
 
   @override
   Widget build(BuildContext context) {
