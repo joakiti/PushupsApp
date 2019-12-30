@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 
 import 'login/bloc.dart';
 import 'login_form.dart';
@@ -33,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
       body: BlocProvider<LoginBloc>(
         create: (context) =>  _loginBloc,
         child: LoginForm(userRepository: _userRepository),

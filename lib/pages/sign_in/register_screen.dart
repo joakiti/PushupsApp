@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 import 'package:project_nash_equilibrium/pages/sign_in/register_form.dart';
 
 import 'register/bloc.dart';

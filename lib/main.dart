@@ -6,20 +6,21 @@ import 'helpers/colors.dart';
 import 'models/bloc.dart';
 import 'models/mainpage/bloc.dart';
 import 'models/notifications/bloc.dart';
-import 'models/repositories/UserRepository.dart';
+import 'models/repositories/repository.dart';
+import 'models/repositories/text_repository.dart';
+import 'models/repositories/user_repository.dart';
 import 'models/sets/bloc.dart';
 import 'pages/sign_in/login_screen.dart';
 import 'pages/sign_in/splash_screen.dart';
 import 'package:bloc/bloc.dart';
 
-void main() =>
-    {
+void main() => {
       /**
        * Comment line in to enable debugging of *all* bloc events.
        */
       BlocSupervisor.delegate = SimpleBlocDelegate(),
-      runApp(MyApp())};
-
+      runApp(MyApp())
+    };
 
 class MyApp extends StatefulWidget {
   @override
@@ -27,7 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   MainPageBloc _mainPageBloc = MainPageBloc();
   UserRepository _userRepository = UserRepository();
   WorkoutBloc _workoutBlocPageBloc = WorkoutBloc();
@@ -46,61 +46,70 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-              primarySwatch:
-              MaterialColor(0xFFfa5333, CustomColors.primary_color),
-              secondaryHeaderColor: Color(0xFF0d2134),
-              primaryColorLight: Color(0xFFD8E0E3),
-              fontFamily: 'Roboto'),
-          home: SafeArea(child: BlocBuilder(
-            bloc: _authenticationBloc,
-            // ignore: missing_return
-            builder: (BuildContext context, AuthenticationState state) {
-              if (state is Uninitialized) {
-                return SplashScreen();
-              }
-              if (state is Unauthenticated) {
-                return LoginScreen(userRepository: _userRepository);
-              }
-              if (state is Authenticated) {
+    return MultiRepositoryProvider(
+      child: MultiBlocProvider(
+        child: MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+                primarySwatch:
+                    MaterialColor(0xFFfa5333, CustomColors.primary_color),
+                secondaryHeaderColor: Color(0xFF0d2134),
+                primaryColorLight: Color(0xFFD8E0E3),
+                fontFamily: 'Roboto'),
+            home: SafeArea(
+                child: BlocBuilder(
+              bloc: _authenticationBloc,
+              // ignore: missing_return
+              builder: (BuildContext context, AuthenticationState state) {
+                if (state is Uninitialized) {
+                  return SplashScreen();
+                }
+                if (state is Unauthenticated) {
+                  return LoginScreen(userRepository: _userRepository);
+                }
+                if (state is Authenticated) {
+                  return MainPage();
+                }
+              },
+            )),
+            routes: <String, WidgetBuilder>{
+              '/notifications': (BuildContext context) {
+                _mainPageBloc.add(PageChanged(0));
                 return MainPage();
-              }
-            },
-          )),
-          routes: <String, WidgetBuilder>{
-            '/notifications': (BuildContext context) {
-              _mainPageBloc.add(PageChanged(0));
-              return MainPage();
-            },
-            '/sets': (BuildContext context) {
-              _mainPageBloc.add(PageChanged(1));
-              return MainPage();
-            },
-          }),
-      providers: <BlocProvider>[
-        BlocProvider<MainPageBloc>(
-          create: (BuildContext context) => _mainPageBloc,
-        ),
-        BlocProvider<NotificationBloc>(
-          create: (BuildContext context) => _notificationPageBloc,
-        ),
-        BlocProvider<WorkoutBloc>(
-          create: (BuildContext context) => _workoutBlocPageBloc,
-        ),
-        BlocProvider<AuthenticationBloc>(
-          create: (context) => _authenticationBloc,
-        )
+              },
+              '/sets': (BuildContext context) {
+                _mainPageBloc.add(PageChanged(1));
+                return MainPage();
+              },
+            }),
+        providers: <BlocProvider>[
+          BlocProvider<MainPageBloc>(
+            create: (BuildContext context) => _mainPageBloc,
+          ),
+          BlocProvider<NotificationBloc>(
+            create: (BuildContext context) => _notificationPageBloc,
+          ),
+          BlocProvider<WorkoutBloc>(
+            create: (BuildContext context) => _workoutBlocPageBloc,
+          ),
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => _authenticationBloc,
+          )
+        ],
+      ),
+      providers: [
+        RepositoryProvider<UserRepository>(
+            create: (context) => UserRepository()),
+        RepositoryProvider<Repository>(
+            create: (context) => Repository()),
+        RepositoryProvider<TextRepository>(
+            create: (context) => TextRepository())
       ],
     );
   }
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    _workoutBlocPageBloc.close();
-    _notificationPageBloc.close();
     super.dispose();
   }
 }

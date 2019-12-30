@@ -46,9 +46,9 @@ class UserRepository {
     return currentUser != null;
   }
 
-  Future<bool> resetUserPassword(FirebaseUser user) async {
+  Future<bool> resetUserPassword(String email) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: user.email);
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
       return true;
     }
     catch (_) {

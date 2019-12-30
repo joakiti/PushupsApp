@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:project_nash_equilibrium/models/bloc.dart';
 import 'package:project_nash_equilibrium/models/user_authentication_bloc_event.dart';
 
-import 'repositories/UserRepository.dart';
+import 'repositories/user_repository.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;

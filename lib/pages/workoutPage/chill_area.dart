@@ -29,11 +29,8 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
   }
 
   Future<void> pauseTimerAndDisplayBackWarning(BuildContext context) {
-    if (!(_timerBloc.state is Paused)) {
-      _timerBloc.add(PauseTimer());
-    }
-    return requestPop(context)
-        .whenComplete(() => _timerBloc.add(Resume()));
+    _timerBloc.add(PauseTimer());
+    return requestPop(context).whenComplete(() => _timerBloc.add(Resume()));
   }
 
   @override

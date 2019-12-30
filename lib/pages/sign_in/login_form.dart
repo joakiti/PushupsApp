@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/models/bloc.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
+import 'package:project_nash_equilibrium/pages/sign_in/buttons/lost_password_button.dart';
+import 'buttons/create_account_button.dart';
+import 'buttons/google_login_button.dart';
+import 'buttons/login_button.dart';
 import 'login/bloc.dart';
-import 'register_screen.dart';
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -17,19 +19,12 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: "mikkel_ander@hotmail.com");
+  final TextEditingController _passwordController = TextEditingController(text: "waldter27");
 
   LoginBloc _loginBloc;
 
   UserRepository get _userRepository => widget._userRepository;
-
-  bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  bool isLoginButtonEnabled(LoginState state) {
-    return state.isFormValid && isPopulated && !state.isSubmitting;
-  }
 
   @override
   void initState() {
@@ -51,7 +46,13 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Login Failure'), Icon(Icons.error)],
+                  children: [
+                    Expanded(
+                        child: Container(
+                            child: Text(
+                                'Login Failure: ${state.failureMesage.message}'))),
+                    Icon(Icons.error)
+                  ],
                 ),
                 backgroundColor: Colors.red,
               ),
@@ -94,10 +95,12 @@ class _LoginFormState extends State<LoginForm> {
                       icon: Icon(Icons.email),
                       labelText: 'Email',
                     ),
-                    autovalidate: true,
+                    autovalidate: false,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
+                      return !state.isEmailValid
+                          ? 'Your e-mail must contain @'
+                          : null;
                     },
                   ),
                   TextFormField(
@@ -107,10 +110,12 @@ class _LoginFormState extends State<LoginForm> {
                       labelText: 'Password',
                     ),
                     obscureText: true,
-                    autovalidate: true,
+                    autovalidate: false,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
+                      return !state.isPasswordValid
+                          ? 'Your password must contain characters and numbers'
+                          : null;
                     },
                   ),
                   Padding(
@@ -118,13 +123,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        LoginButton(
-                          onPressed: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
-                        ),
+                        LoginButton(onPressed: _onFormSubmitted),
                         GoogleLoginButton(),
-                        CreateAccountButton(userRepository: _userRepository)
+                        CreateAccountButton(userRepository: _userRepository),
+                        LostPasswordButton(userRepo: _userRepository)
                       ],
                     ),
                   ),
@@ -162,66 +164,6 @@ class _LoginFormState extends State<LoginForm> {
         email: _emailController.text,
         password: _passwordController.text,
       ),
-    );
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  final VoidCallback _onPressed;
-
-  LoginButton({VoidCallback onPressed}) : _onPressed = onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      onPressed: _onPressed,
-      child: Text('Login'),
-    );
-  }
-}
-
-class GoogleLoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton.icon(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      icon: Icon(FontAwesomeIcons.google, color: Colors.white),
-      onPressed: () {
-        BlocProvider.of<LoginBloc>(context).add(
-          LoginWithGooglePressed(),
-        );
-      },
-      label: Text('Sign in with Google', style: TextStyle(color: Colors.white)),
-      color: Colors.redAccent,
-    );
-  }
-}
-
-class CreateAccountButton extends StatelessWidget {
-  final UserRepository _userRepository;
-
-  CreateAccountButton({@required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository;
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      child: Text(
-        'Create an Account',
-      ),
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return RegisterScreen(userRepository: _userRepository);
-          }),
-        );
-      },
     );
   }
 }

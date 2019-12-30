@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 import 'package:project_nash_equilibrium/pages/sign_in/validators/Validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,21 +20,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginState get initialState => LoginState.empty();
 
   /**
-  @override
-  Stream<LoginState> transform(
-    Stream<LoginEvent> events,
-    Stream<LoginState> Function(LoginEvent event) next,
-  ) {
-    final observableStream = events as Observable<LoginEvent>;
-    final nonDebounceStream = observableStream.where((event) {
+      @override
+      Stream<LoginState> transform(
+      Stream<LoginEvent> events,
+      Stream<LoginState> Function(LoginEvent event) next,
+      ) {
+      final observableStream = events as Observable<LoginEvent>;
+      final nonDebounceStream = observableStream.where((event) {
       return (event is! EmailChanged && event is! PasswordChanged);
-    });
-    final debounceStream = observableStream.where((event) {
+      });
+      final debounceStream = observableStream.where((event) {
       return (event is EmailChanged || event is PasswordChanged);
-    }).debounce(Duration(milliseconds: 300));
-    return super.transform(nonDebounceStream.mergeWith([debounceStream]), next);
-  }
-*/
+      }).debounce(Duration(milliseconds: 300));
+      return super.transform(nonDebounceStream.mergeWith([debounceStream]), next);
+      }
+   */
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is EmailChanged) {
@@ -66,9 +67,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithGoogle();
       yield LoginState.success();
-    } catch (exception) {
-      print(exception);
-      yield LoginState.failure();
+    } on PlatformException catch (msg) {
+      yield LoginState.failure(errmsg: msg);
     }
   }
 
@@ -80,8 +80,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithCredentials(email, password);
       yield LoginState.success();
-    } catch (_) {
-      yield LoginState.failure();
+    } on PlatformException catch (msg) {
+      yield LoginState.failure(errmsg: msg);
     }
   }
 }

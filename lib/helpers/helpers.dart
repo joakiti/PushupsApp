@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_nash_equilibrium/models/bloc.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 
 class PageHelper {
   //This method must be called inside a column, for which it returns a list of widgets.

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -7,16 +8,18 @@ class LoginState {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
+  PlatformException failureMesage;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
-  LoginState({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
-  });
+  LoginState(
+      {@required this.isEmailValid,
+      @required this.isPasswordValid,
+      @required this.isSubmitting,
+      @required this.isSuccess,
+      @required this.isFailure,
+      this.failureMesage}) {
+  }
 
   factory LoginState.empty() {
     return LoginState(
@@ -38,14 +41,14 @@ class LoginState {
     );
   }
 
-  factory LoginState.failure() {
+  factory LoginState.failure({PlatformException errmsg}) {
     return LoginState(
-      isEmailValid: true,
-      isPasswordValid: true,
-      isSubmitting: false,
-      isSuccess: false,
-      isFailure: true,
-    );
+        isEmailValid: true,
+        isPasswordValid: true,
+        isSubmitting: false,
+        isSuccess: false,
+        isFailure: true,
+        failureMesage: errmsg);
   }
 
   factory LoginState.success() {
@@ -70,6 +73,7 @@ class LoginState {
       isFailure: false,
     );
   }
+
 
   LoginState copyWith({
     bool isEmailValid,

@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:project_nash_equilibrium/models/repositories/UserRepository.dart';
+import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 import 'package:project_nash_equilibrium/pages/sign_in/validators/Validators.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'bloc.dart';
 
