@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/models/active_workout/active_workout_bloc.dart';
+import 'package:project_nash_equilibrium/models/repositories/text_repository.dart';
 import 'package:project_nash_equilibrium/models/sets/sets.dart';
 
 Container buildCurrentSetContainer(BuildContext context, {Color color}) {
@@ -17,7 +18,7 @@ Container buildCurrentSetContainer(BuildContext context, {Color color}) {
         padding: const EdgeInsets.only(top: 9, left: 8),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Text("CURRENT SET", style: TextStyleProvider.bold(15)),
+          child: Text(RepositoryProvider.of<TextRepository>(context).CURRENT_SET, style: TextStyleProvider.bold(15)),
         ),
       ),
       Padding(

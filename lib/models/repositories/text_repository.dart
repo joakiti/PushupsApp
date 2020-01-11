@@ -4,4 +4,6 @@ class TextRepository {
   final String A_FEW_MORE= 'Just a few more push-ups to go!';
   final String LEAVE = "LEAVE";
   final String STAY = "STAY";
+  final String CURRENT_SET = "CURRENT SET";
+
 }
