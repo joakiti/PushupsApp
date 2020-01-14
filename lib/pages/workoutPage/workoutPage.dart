@@ -6,11 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/helpers/colors.dart';
 import 'package:project_nash_equilibrium/models/active_workout/bloc.dart';
-import 'package:project_nash_equilibrium/models/sets/sets.dart';
 import 'package:project_nash_equilibrium/pages/workoutPage/workoutPop.dart';
 
-import 'workoutPageHelperFunctions.dart';
 import 'chill_area.dart';
+import 'workoutPageHelperFunctions.dart';
 
 class WorkoutPage extends StatefulWidget {
   @override

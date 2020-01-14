@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 
 import 'login/bloc.dart';
 import 'login_form.dart';
+import 'dart:ui' as ui;
+
 
 class LoginScreen extends StatefulWidget {
   final UserRepository _userRepository;
@@ -32,11 +33,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<LoginBloc>(
-        create: (context) =>  _loginBloc,
-        child: LoginForm(userRepository: _userRepository),
-      ),
+    return Stack(
+      children: [
+        /**
+         * The background of the sign in page.
+         */
+        Scaffold(
+          resizeToAvoidBottomPadding: false,
+          body: Image.asset(
+            "assets/pushup_man.jpg",
+            height: ui.window.physicalSize.height,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        Scaffold(
+          resizeToAvoidBottomPadding: false,
+          backgroundColor: Colors.transparent,
+          body: BlocProvider<LoginBloc>(
+            create: (context) => _loginBloc,
+            child: LoginForm(userRepository: _userRepository),
+          ),
+        )
+      ],
     );
   }
 

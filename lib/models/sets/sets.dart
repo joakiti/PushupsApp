@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 class Sets extends Equatable {
   Sets({
     @required this.set,
-    @required this.level,
-  })  : total = set.reduce((a, b) => a + b),
-        super([set, level]);
+  })  : total = set.reduce((a, b) => a + b);
 
   final List<int> set;
   final int total;
-  final int level;
 }

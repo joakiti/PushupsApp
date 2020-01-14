@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 
 import '../register_screen.dart';
@@ -16,6 +17,7 @@ class CreateAccountButton extends StatelessWidget {
     return FlatButton(
       child: Text(
         'Create an Account',
+        style: TextStyleProvider.bold(12),
       ),
       onPressed: () {
         Navigator.of(context).push(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/models/bloc.dart';
 import 'package:project_nash_equilibrium/models/repositories/user_repository.dart';
 import 'package:project_nash_equilibrium/pages/sign_in/buttons/lost_password_button.dart';
@@ -7,6 +9,7 @@ import 'buttons/create_account_button.dart';
 import 'buttons/google_login_button.dart';
 import 'buttons/login_button.dart';
 import 'login/bloc.dart';
+import 'dart:ui' as ui;
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -19,8 +22,10 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _emailController = TextEditingController(text: "test@hotmail.com");
-  final TextEditingController _passwordController = TextEditingController(text: "secretpassword1");
+  final TextEditingController _emailController =
+      TextEditingController(text: "test@hotmail.com");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "secretpassword1");
 
   LoginBloc _loginBloc;
 
@@ -80,59 +85,81 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder(
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
-          return Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/pushups.jpg', height: 200),
+          return Column(
+            children: <Widget>[
+              SizedBox(height: 250,),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        /**
+                         * If it does not have a height, app dies.
+                         */
+                        height: 350,
+                        alignment: Alignment.bottomCenter,
+                        child: Form(
+                          child: ListView(
+                            children: <Widget>[
+                              TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  labelStyle: TextStyleProvider.bold(16),
+                                  icon: Icon(Icons.email),
+                                  labelText: 'Email',
+                                ),
+                                autovalidate: false,
+                                autocorrect: false,
+                                validator: (_) {
+                                  return !state.isEmailValid
+                                      ? 'Your e-mail must contain @'
+                                      : null;
+                                },
+                              ),
+                              TextFormField(
+                                style: TextStyleProvider.regular(14),
+                                controller: _passwordController,
+                                decoration: InputDecoration(
+                                  labelStyle: TextStyleProvider.bold(16),
+                                  fillColor: Colors.white,
+                                  icon: Icon(Icons.lock),
+                                  labelText: 'Password',
+                                ),
+                                obscureText: true,
+                                autovalidate: false,
+                                autocorrect: false,
+                                validator: (_) {
+                                  return !state.isPasswordValid
+                                      ? 'Your password must contain characters and numbers'
+                                      : null;
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    LoginButton(onPressed: _onFormSubmitted),
+                                    GoogleLoginButton(),
+                                    CreateAccountButton(
+                                        userRepository: _userRepository),
+                                    LostPasswordButton(userRepo: _userRepository)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autovalidate: false,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid
-                          ? 'Your e-mail must contain @'
-                          : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: false,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid
-                          ? 'Your password must contain characters and numbers'
-                          : null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(onPressed: _onFormSubmitted),
-                        GoogleLoginButton(),
-                        CreateAccountButton(userRepository: _userRepository),
-                        LostPasswordButton(userRepo: _userRepository)
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           );
         },
       ),

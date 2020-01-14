@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_nash_equilibrium/helpers/helpers.dart';
 import 'package:project_nash_equilibrium/interfaces/MainPageInterface.dart';
 import 'package:project_nash_equilibrium/models/mainpage/bloc.dart';
+import 'package:project_nash_equilibrium/pages/main/mainPage/historyPage.dart';
+import 'package:project_nash_equilibrium/pages/main/mainPage/levelsPage.dart';
 
 import 'mainPage/notificationPage.dart';
 import 'mainPage/setPage.dart';
@@ -18,7 +20,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   PageController controller;
 
-  List<MainPageInterface> get pages => [NotificationPage(), SetPage(), ];
+  List<MainPageInterface> get pages => [NotificationPage(), SetPage(), LevelsPage(), HistoryPage()];
 
   @override
   void initState() {
