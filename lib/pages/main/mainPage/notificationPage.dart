@@ -115,9 +115,6 @@ class _NotificationPageState extends State<NotificationPage>
                   alignment: FractionalOffset.center, child: buildWheel(250)),
             ),
           ),
-          Column(
-            children: <Widget>[],
-          )
         ],
         context: context,
       ),

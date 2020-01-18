@@ -8,4 +8,12 @@ class Sets extends Equatable {
 
   final List<int> set;
   final int total;
+
+  @override
+  String toString() {
+    String withManyDashes = set.fold<String>(
+        "", (empty, next) => empty.toString() + next.toString() + " - ");
+    return withManyDashes.substring(
+        0, ((set.length - 1) * 3 + set.length) + 1);
+  }
 }

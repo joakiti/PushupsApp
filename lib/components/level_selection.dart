@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
@@ -35,6 +37,14 @@ class _SectionState extends State<MenuSection>
   /// The [AnimationController] is a Flutter Animation object that generates a new value
   /// whenever the hardware is ready to draw a new frame.
   AnimationController _controller;
+  ScrollController _scrollController = new ScrollController();
+
+  void _goToElement(int index) {
+    _controller.animateTo((100.0 * index),
+        // 100 is the height of container and index of 6th element is 5
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut);
+  }
 
   /// Since the above object interpolates only between 0 and 1, but we'd rather apply a curve to the current
   /// animation, we're providing a custom [Tween] that allows to build more advanced animations, as seen in [initState()].
@@ -107,86 +117,139 @@ class _SectionState extends State<MenuSection>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: _toggleExpand,
+        onTap: () {
+          _toggleExpand();
+        },
         child: Container(
             decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+
+                    color: Colors.grey.withOpacity(0.9),
+                    blurRadius: 3.0, // soften the shadow
+                    spreadRadius: 1.0, //extend the shadow
+                    offset: Offset(
+                      3.0, // Move to right 10  horizontally
+                      5.0, // Move to bottom 10 Vertically
+                    ),
+                  )
+                ],
                 borderRadius: BorderRadius.circular(30.0),
                 color: widget.backgroundColor),
-            child: ClipRRect(
-                child: Stack(
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      Container(
-                          height: 70.0,
-                          alignment: Alignment.center,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 21.0,
-                                width: 21.0,
-                                margin: EdgeInsets.all(18.0),
+            child: Stack(
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Container(
+                      height: 70.0,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 21.0,
+                            width: 21.0,
+                            margin: EdgeInsets.all(18.0),
 
-                                /// Another [FlareActor] widget that
-                                /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
-                                child: flare.FlareActor(
-                                    "assets/flare/ExpandCollapse.flr",
-                                    color: widget.accentColor,
-                                    animation:
-                                        _isExpanded ? "Collapse" : "Expand"),
-                              ),
-                              Text(
-                                "LEVEL " + widget.setLevel.level.toString(),
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: "RobotoMedium",
-                                    color: widget.accentColor),
-                              )
-                            ],
-                          )),
-                      SizeTransition(
-                          axisAlignment: 0.0,
-                          axis: Axis.vertical,
-                          sizeFactor: _sizeAnimation,
-                          child: Container(
-                              child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 20.0),
-                                  child: Column(
-                                      children:
-                                          widget.setLevel.sets.map((item) {
-                                    return GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () =>
-                                            widget.navigateTo(widget.setLevel),
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 20.0),
-                                                      child: Text(
-                                                        item.set.toString(),
-                                                        style: TextStyle(
-                                                            color: widget
-                                                                .accentColor,
-                                                            fontSize: 20.0,
-                                                            fontFamily:
-                                                                "RobotoMedium"),
-                                                      ))),
-                                              Container(
-                                                  alignment: Alignment.center,
-                                                  child: Image.asset(
-                                                      "assets/flare/right_arrow.png",
-                                                      color: widget.accentColor,
-                                                      height: 22.0,
-                                                      width: 22.0))
-                                            ]));
-                                  }).toList()))))
-                    ]),
-                  ],
-                ))));
+                            /// Another [FlareActor] widget that
+                            /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
+                            child: flare.FlareActor(
+                                "assets/flare/ExpandCollapse.flr",
+                                color: widget.accentColor,
+                                animation: _isExpanded ? "Collapse" : "Expand"),
+                          ),
+                          Text(
+                            "LEVEL " + widget.setLevel.level.toString(),
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: "RobotoMedium",
+                                color: widget.accentColor),
+                          )
+                        ],
+                      )),
+                  SizeTransition(
+                      sizeFactor: _sizeAnimation,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white10),
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 20.0, top: 15),
+                              child: Column(
+                                  children: widget.setLevel.sets
+                                      .asMap()
+                                      .map((dayZero, item) {
+                                        int dayOne = dayZero + 1;
+                                        return MapEntry(
+                                            dayZero,
+                                            GestureDetector(
+                                                behavior:
+                                                    HitTestBehavior.opaque,
+                                                onTap: () => widget.navigateTo(
+                                                    widget.setLevel),
+                                                child: Container(
+                                                  height: 35,
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 14.0),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0),
+                                                      color: Colors.white10),
+                                                  child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Expanded(
+                                                            child: Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            30),
+                                                                child: Text(
+                                                                  "DAY " +
+                                                                      dayOne
+                                                                          .toString(),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                  style: TextStyle(
+                                                                      color: widget
+                                                                          .accentColor,
+                                                                      fontSize:
+                                                                          20.0,
+                                                                      fontFamily:
+                                                                          "RobotoMedium"),
+                                                                ))),
+                                                        Expanded(
+                                                            child: Container(
+                                                                child: Text(
+                                                          item.toString(),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: widget
+                                                                  .accentColor,
+                                                              fontSize: 20.0,
+                                                              fontFamily:
+                                                                  "RobotoMedium"),
+                                                        ))),
+                                                        Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Image.asset(
+                                                                "assets/flare/right_arrow.png",
+                                                                color: widget
+                                                                    .accentColor,
+                                                                height: 22.0,
+                                                                width: 22.0))
+                                                      ]),
+                                                )));
+                                      })
+                                      .values
+                                      .toList()))))
+                ]),
+              ],
+            )));
   }
 }

@@ -35,8 +35,5 @@ Container buildCurrentSetContainer(BuildContext context, {Color color}) {
 String buildCurrentSet(BuildContext context) {
 //Fix this
   Sets set = BlocProvider.of<ActiveWorkoutBloc>(context).workout;
-  String withManyDashes = set.set.fold<String>(
-      "", (empty, next) => empty.toString() + next.toString() + " - ");
-  return withManyDashes.substring(
-      0, ((set.set.length - 1) * 3 + set.set.length) + 1);
+  return set.toString();
 }

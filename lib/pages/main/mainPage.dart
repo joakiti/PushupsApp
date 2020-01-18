@@ -42,9 +42,7 @@ class _MainPageState extends State<MainPage> {
             unselectedItemColor: Theme.of(context).textTheme.caption.color,
             currentIndex: index,
             onTap: (int) => {
-                  controller.animateToPage(int,
-                      curve: Interval(0, 1),
-                      duration: Duration(milliseconds: 100))
+                  controller.jumpToPage(int)
                 },
             items: [
               BottomNavigationBarItem(

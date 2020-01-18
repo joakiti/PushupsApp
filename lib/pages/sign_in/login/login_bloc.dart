@@ -19,22 +19,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   LoginState get initialState => LoginState.empty();
 
-  /**
-      @override
-      Stream<LoginState> transform(
-      Stream<LoginEvent> events,
-      Stream<LoginState> Function(LoginEvent event) next,
-      ) {
-      final observableStream = events as Observable<LoginEvent>;
-      final nonDebounceStream = observableStream.where((event) {
-      return (event is! EmailChanged && event is! PasswordChanged);
-      });
-      final debounceStream = observableStream.where((event) {
-      return (event is EmailChanged || event is PasswordChanged);
-      }).debounce(Duration(milliseconds: 300));
-      return super.transform(nonDebounceStream.mergeWith([debounceStream]), next);
-      }
-   */
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is EmailChanged) {
@@ -78,8 +62,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }) async* {
     yield LoginState.loading();
     try {
-      await _userRepository.signInWithCredentials(email, password);
-      yield LoginState.success();
+      LoginState waitingForSuccess = LoginState.success();
+      await _userRepository.signInWithCredentials(email, password).timeout(Duration(seconds: 2), onTimeout: () {
+        waitingForSuccess = LoginState.failure(errmsg: PlatformException(code: "10", message: "No response from server, check your connection"));
+      });
+      yield waitingForSuccess;
     } on PlatformException catch (msg) {
       yield LoginState.failure(errmsg: msg);
     }

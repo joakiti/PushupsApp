@@ -137,12 +137,6 @@ class _SetPageState extends State<SetPage>
   }
 
   Expanded buildCardBody(BuildContext context, Sets sets) {
-    String displayText = "";
-    for (int set in sets.set) {
-      displayText += set.toString() + " - ";
-    }
-    //Remove the last dash
-    displayText = displayText.substring(0, displayText.length - 2);
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -152,7 +146,7 @@ class _SetPageState extends State<SetPage>
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: FittedBox(
           fit: BoxFit.fitWidth,
-          child: Text(displayText,
+          child: Text(sets.toString(),
               style: TextStyle(fontSize: 35, color: Colors.white)),
         ),
         //From: https://medium.com/jlouage/container-de5b0d3ad184
