@@ -41,7 +41,7 @@ class LoginState {
     );
   }
 
-  factory LoginState.failure({Exception errmsg}) {
+  factory LoginState.failure({PlatformException errmsg}) {
     return LoginState(
         isEmailValid: true,
         isPasswordValid: true,

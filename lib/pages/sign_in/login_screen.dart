@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
          * The background of the sign in page.
          */
         Scaffold(
-          resizeToAvoidBottomPadding: false,
           body: Image.asset(
             "assets/pushup_man.jpg",
             height: ui.window.physicalSize.height,
@@ -47,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         Scaffold(
-          resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.transparent,
           body: BlocProvider<LoginBloc>(
             create: (context) => _loginBloc,

@@ -1,0 +1,47 @@
+[33mcommit df420d0d4bbfb98207e7cf3cb35e001f385f7f59[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Sat Jan 18 13:48:13 2020 +0100
+
+    A few smaller visual and model updates.
+
+[33mcommit 7abd7a0d75005136e267c13f736c66e5e3c8c81a[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Tue Jan 14 19:47:32 2020 +0100
+
+    new update for levels
+
+[33mcommit 8bb3f4a73a86c96bf0513232e8f32f1e1f4012f1[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Sat Jan 11 20:55:29 2020 +0100
+
+    No major changes.
+
+[33mcommit c827b114e8edfa65319bbafba398237d37ebd2bb[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Mon Dec 30 20:23:34 2019 +0100
+
+    Not sure what changes we did.
+
+[33mcommit 44254972fbf0ccbd40af938e3d924b35fbcadc4f[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Tue Dec 24 16:37:15 2019 +0100
+
+    When rerouting app looses authentication bloc.
+
+[33mcommit 1497e04b01ac5e106a843a4fa026d7408fd8b3d1[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Mon Dec 23 23:11:05 2019 +0100
+
+    Added authentication.
+
+[33mcommit fa0eeee9b8f632082491030cfe5405f2c37166dc[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Mon Dec 23 22:07:44 2019 +0100
+
+    Stable build
+
+[33mcommit 988befc83a2ab6c3ec72ff65727939c1d8820108[m
+Author: Mikkel Andersen <mikkel_ander@hotmail.com>
+Date:   Mon Dec 23 11:22:20 2019 +0100
+
+    Initial commit
