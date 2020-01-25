@@ -62,10 +62,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }) async* {
     yield LoginState.loading();
     try {
-      await _userRepository.signInWithCredentials(email, password);
-      yield LoginState.success();
+      LoginState waitingForSuccess = LoginState.success();
+      await _userRepository.signInWithCredentials(email, password).timeout(Duration(seconds: 6), onTimeout: () {
+        waitingForSuccess = LoginState.failure(errmsg: PlatformException(code: "10", message: "No response from server, check your connection"));
+      });
+      yield waitingForSuccess;
     } on Exception catch (msg) {
-      print(msg);
       yield LoginState.failure(errmsg: msg);
     }
   }
