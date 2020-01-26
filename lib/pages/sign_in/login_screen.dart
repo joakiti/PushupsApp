@@ -39,25 +39,22 @@ class _LoginScreenState extends State<LoginScreen> {
          * The background of the sign in page.
          */
         Scaffold(
-          body: Image.asset(
-            "assets/pushup_man.jpg",
-            height: ui.window.physicalSize.height,
-            fit: BoxFit.fitHeight,
+          resizeToAvoidBottomPadding: false,
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/pushup_man.jpg"), fit: BoxFit.cover),
+
+            ),
           ),
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
           body: BlocProvider<LoginBloc>(
             create: (context) => _loginBloc,
-            child: LoginForm(userRepository: _userRepository),
+            child: SingleChildScrollView(child: LoginForm(userRepository: _userRepository)),
           ),
         )
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

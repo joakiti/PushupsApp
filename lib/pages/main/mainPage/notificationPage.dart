@@ -127,14 +127,14 @@ class _NotificationPageState extends State<NotificationPage>
         fontSize: 60,
         fontWeight: FontWeight.bold);
     return Container(
-      height: height,
+      height: height+10,
       child: Stack(
         children: <Widget>[
           buildTimeWheel(height, _style),
           Positioned(
             child: IgnorePointer(
               child: Container(
-                height: height / 3.5,
+                height: (height / 3.5), //This is a magic number, sorry.
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.bottomCenter,

@@ -9,6 +9,7 @@ import 'buttons/create_account_button.dart';
 import 'buttons/google_login_button.dart';
 import 'buttons/login_button.dart';
 import 'login/bloc.dart';
+import 'dart:ui' as ui;
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -84,81 +85,74 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder(
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
-          return Column(
-            children: <Widget>[
-              SizedBox(height: 250,),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        /**
-                         * If it does not have a height, app dies.
-                         */
-                        height: 350,
-                        alignment: Alignment.bottomCenter,
-                        child: Form(
-                          child: ListView(
-                            children: <Widget>[
-                              TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  labelStyle: TextStyleProvider.bold(16),
-                                  icon: Icon(Icons.email),
-                                  labelText: 'Email',
-                                ),
-                                autovalidate: false,
-                                autocorrect: false,
-                                validator: (_) {
-                                  return !state.isEmailValid
-                                      ? 'Your e-mail must contain @'
-                                      : null;
-                                },
-                              ),
-                              TextFormField(
-                                style: TextStyleProvider.regular(14),
-                                controller: _passwordController,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyleProvider.bold(16),
-                                  fillColor: Colors.white,
-                                  icon: Icon(Icons.lock),
-                                  labelText: 'Password',
-                                ),
-                                obscureText: true,
-                                autovalidate: false,
-                                autocorrect: false,
-                                validator: (_) {
-                                  return !state.isPasswordValid
-                                      ? 'Your password must contain characters and numbers'
-                                      : null;
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    LoginButton(onPressed: _onFormSubmitted),
-                                    GoogleLoginButton(),
-                                    CreateAccountButton(
-                                        userRepository: _userRepository),
-                                    LostPasswordButton(userRepo: _userRepository)
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+          return Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Form(
+              child: Container(
+                /**
+                 * So, we push down the layout by having a box o
+                 */
+                height: ui.window.physicalSize.height * ui.window.physicalSize.aspectRatio - 350,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextFormField(
+                      style: TextStyle(color: Colors.white),
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        labelStyle: TextStyleProvider.bold(16).copyWith(decoration: TextDecoration.underline),
+                        icon: Icon(Icons.email, color: Theme.of(context).primaryColor.withOpacity(0.9)),
+                        labelText: 'Email',
                       ),
-                    ],
-                  ),
+                      autovalidate: false,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isEmailValid
+                            ? 'Your e-mail must contain @'
+                            : null;
+                      },
+                    ),
+                    TextFormField(
+                      style: TextStyleProvider.regular(14),
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyleProvider.bold(16).copyWith(decoration: TextDecoration.underline),
+                        fillColor: Colors.white,
+                        icon: Icon(Icons.lock, color: Theme.of(context).primaryColor.withOpacity(0.9)),
+                        labelText: 'Password',
+                      ),
+                      obscureText: true,
+                      autovalidate: false,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isPasswordValid
+                            ? 'Your password must contain characters and numbers'
+                            : null;
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          LoginButton(onPressed: _onFormSubmitted),
+                          GoogleLoginButton(),
+                          CreateAccountButton(
+                              userRepository: _userRepository),
+                          LostPasswordButton(
+                              userRepo: _userRepository)
+                        ],
+                      ),
+                    ),
+
+                  ],
                 ),
               ),
-            ],
+            ),
           );
         },
       ),
