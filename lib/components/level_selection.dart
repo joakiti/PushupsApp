@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 import "package:flare_flutter/flare_actor.dart" as flare;
 
@@ -122,6 +123,7 @@ class _SectionState extends State<MenuSection>
         },
         child: Container(
             decoration: BoxDecoration(
+              border: Border.all(color: Colors.green, width: 3),
                 boxShadow: [
                   BoxShadow(
 
@@ -134,42 +136,45 @@ class _SectionState extends State<MenuSection>
                     ),
                   )
                 ],
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(20.0),
                 color: widget.backgroundColor),
             child: Stack(
               children: <Widget>[
                 Column(children: <Widget>[
                   Container(
-                      height: 70.0,
+                      height: 50.0,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            height: 21.0,
-                            width: 21.0,
-                            margin: EdgeInsets.all(18.0),
-
-                            /// Another [FlareActor] widget that
-                            /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
-                            child: flare.FlareActor(
-                                "assets/flare/ExpandCollapse.flr",
-                                color: widget.accentColor,
-                                animation: _isExpanded ? "Collapse" : "Expand"),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              "LEVEL " + widget.setLevel.level.toString(),
+                              style: TextStyleProvider.bold(20),
+                            ),
                           ),
-                          Text(
-                            "LEVEL " + widget.setLevel.level.toString(),
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: "RobotoMedium",
-                                color: widget.accentColor),
-                          )
+                          Align(alignment: Alignment.centerRight,
+                            child: Container(
+                              height: 25.0,
+                              width: 25.0,
+                              margin: EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(45), color: Colors.grey.withOpacity(0.4)),
+
+                              /// Another [FlareActor] widget that
+                              /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
+                              child: flare.FlareActor(
+                                  "assets/flare/ExpandCollapse.flr",
+                                  color: Theme.of(context).primaryColor,
+                                  animation: _isExpanded ? "Collapse" : "Expand"),
+                            ),
+                          ),
                         ],
                       )),
                   SizeTransition(
                       sizeFactor: _sizeAnimation,
                       child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(20.0),
                               color: Colors.white10),
                           child: Padding(
                               padding: EdgeInsets.only(

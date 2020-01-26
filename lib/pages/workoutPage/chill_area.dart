@@ -120,7 +120,7 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
           child: Stack(
             children: <Widget>[
               Transform.translate(
-                offset: Offset(0, 165),
+                offset: Offset(0, height - 500),
                 child: Container(
                   child: WavesBackground([
                     Colors.lightBlue.withOpacity(0.9),

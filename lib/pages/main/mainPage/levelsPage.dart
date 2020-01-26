@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/components/level_selection.dart';
 import 'package:project_nash_equilibrium/helpers/helpers.dart';
-import 'package:project_nash_equilibrium/models/sets/set_level.dart';
-import 'package:project_nash_equilibrium/models/sets/sets.dart';
 import 'package:project_nash_equilibrium/interfaces/MainPageInterface.dart';
 import 'package:project_nash_equilibrium/models/repositories/repository.dart';
+import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 
 class LevelsPage extends StatefulWidget implements MainPageInterface {
   @override
