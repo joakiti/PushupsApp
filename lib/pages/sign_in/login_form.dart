@@ -22,6 +22,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+
   final TextEditingController _emailController =
       TextEditingController(text: "test@hotmail.com");
   final TextEditingController _passwordController =
@@ -89,9 +90,6 @@ class _LoginFormState extends State<LoginForm> {
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Form(
               child: Container(
-                /**
-                 * So, we push down the layout by having a box o
-                 */
                 height: ui.window.physicalSize.height * ui.window.physicalSize.aspectRatio - 350,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

@@ -13,7 +13,8 @@ class LevelsPage extends StatefulWidget implements MainPageInterface {
   @override
   Widget buildButton(BuildContext context) {
     // TODO: implement buildButton
-    return Container();
+    return PageHelper.navBarButton(
+        Theme.of(context).primaryColor, "BREAK THE LIMITS", () => {}, context);
   }
 }
 
@@ -50,17 +51,42 @@ class _LevelsPageState extends State<LevelsPage> {
             height: 20,
           ),
           Column(
-            children:
-                RepositoryProvider.of<Repository>(context).data.map((slevel) {
+            children: RepositoryProvider.of<Repository>(context)
+                .data
+                .asMap()
+                .entries
+                .map((entry) {
+              int selectedLevelInApp = 2;
+              int selectedDay = 1;
+              SetLevel level = entry.value;
+              int indx = entry.key;
+              var bottomPadding = 8.0;
+              if (indx + 1 ==
+                  RepositoryProvider.of<Repository>(context).data.length) {
+                bottomPadding = 128;
+              }
+              var color = () {
+                if (selectedLevelInApp == indx +1) {
+                  if (selectedDay < level.day) {
+                    return Colors.grey;
+                  } else if (selectedDay == level.day) {
+                    return Colors.lightGreenAccent;
+                  }
+                }
+                return Colors.white;
+
+              };
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
                 child: MenuSection(
                   Theme.of(context).secondaryHeaderColor,
-                  Theme.of(context).primaryColorLight,
-                  slevel,
+                  Colors.white,
+                  level == selectedLevelInApp ? Colors.lightGreenAccent : null,
+                  level,
                   (SetLevel level) {
                     print(level.sets);
                   },
+                  entryColor: color,
                 ),
               );
             }).toList(),

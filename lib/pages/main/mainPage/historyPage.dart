@@ -17,7 +17,7 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      child: Text("This page is currently under development"),
+      child: Text("This page is currently under development. \n\nLike this app on the app or google play store for more updates!"),
     ));
   }
 }

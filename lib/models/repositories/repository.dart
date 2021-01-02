@@ -1,7 +1,6 @@
 import 'package:project_nash_equilibrium/models/notifications/notification.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 import 'package:project_nash_equilibrium/models/sets/sets.dart';
-import 'package:project_nash_equilibrium/pages/main/mainPage/levelsPage.dart';
 
 class Repository {
   static Future<Sets> getSets() async {
@@ -15,6 +14,10 @@ class Repository {
   }
 
   final List<SetLevel> data = [
+    SetLevel(level: 1, sets: [
+      Sets(set: [2, 3, 6, 7]),
+      Sets(set: [2, 3, 6, 8])
+    ]),
     SetLevel(level: 2, sets: [
       Sets(set: [2, 3, 6, 7]),
       Sets(set: [2, 3, 6, 8])

@@ -19,12 +19,14 @@ typedef NavigateTo(SetLevel item);
 class MenuSection extends StatefulWidget {
   final Color backgroundColor;
   final Color accentColor;
+  final Color borderColor;
+  final Function entryColor;
   final SetLevel setLevel;
   final NavigateTo navigateTo;
 
   MenuSection(
-      this.backgroundColor, this.accentColor, this.setLevel, this.navigateTo,
-      {Key key})
+      this.backgroundColor, this.accentColor, this.borderColor, this.setLevel, this.navigateTo,
+      {Key key, this.entryColor})
       : super(key: key);
 
   @override
@@ -123,10 +125,9 @@ class _SectionState extends State<MenuSection>
         },
         child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.green, width: 3),
+              border: widget.borderColor != null ? Border.all(color: widget.borderColor, width: 3) : null,
                 boxShadow: [
                   BoxShadow(
-
                     color: Colors.grey.withOpacity(0.9),
                     blurRadius: 3.0, // soften the shadow
                     spreadRadius: 1.0, //extend the shadow
@@ -219,8 +220,7 @@ class _SectionState extends State<MenuSection>
                                                                       TextAlign
                                                                           .start,
                                                                   style: TextStyle(
-                                                                      color: widget
-                                                                          .accentColor,
+                                                                      color: widget.entryColor(),
                                                                       fontSize:
                                                                           20.0,
                                                                       fontFamily:
