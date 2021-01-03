@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:project_nash_equilibrium/helpers/ticker.dart';
 import './bloc.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-
   int _duration = 1;
   final Ticker _ticker;
 
@@ -32,6 +32,10 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       yield* generateStatePause(event);
     } else if (event is Resume) {
       yield* generateStateResume(event);
+    } else if (event is Increment) {
+      yield* generateStateIncrement(event);
+    } else if (event is Finished) {
+      _tickerSubscription.cancel();
     }
   }
 
@@ -58,7 +62,8 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     _duration = event.duration;
     yield Running(event.duration);
     _tickerSubscription?.cancel();
-    _tickerSubscription = _ticker.tick(ticks: event.duration).listen((duration) {
+    _tickerSubscription =
+        _ticker.tick(ticks: event.duration).listen((duration) {
       add(Tick(duration: duration));
     });
   }
@@ -66,5 +71,16 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   Stream<TimerState> generateStateTick(Tick event) async* {
     _duration = event.duration;
     yield _duration == 0 ? Finished() : Running(event.duration);
+  }
+
+  Stream<TimerState> generateStateIncrement(Increment event) async* {
+    int newDuration = min(this.state.duration + event.value, 120);
+    yield Running(newDuration);
+    _tickerSubscription.cancel();
+    _tickerSubscription = _ticker
+        .tick(ticks: newDuration)
+        .listen((duration) {
+      add(Tick(duration: duration));
+    });
   }
 }

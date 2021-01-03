@@ -13,8 +13,8 @@ class LevelsPage extends StatefulWidget implements MainPageInterface {
   @override
   Widget buildButton(BuildContext context) {
     // TODO: implement buildButton
-    return PageHelper.navBarButton(
-        Theme.of(context).primaryColor, "BREAK THE LIMITS", () => {}, context);
+    return PageHelper.navBarButton(Color.lerp(Theme.of(context).secondaryHeaderColor, Colors.black, 0.9),
+        "PUSH THE LIMITS!", () => {}, context);
   }
 }
 
@@ -51,48 +51,49 @@ class _LevelsPageState extends State<LevelsPage> {
             height: 20,
           ),
           Column(
-            children: RepositoryProvider.of<Repository>(context)
+            children: Repository
                 .data
-                .asMap()
-                .entries
-                .map((entry) {
-              int selectedLevelInApp = 2;
-              int selectedDay = 1;
-              SetLevel level = entry.value;
-              int indx = entry.key;
-              var bottomPadding = 8.0;
-              if (indx + 1 ==
-                  RepositoryProvider.of<Repository>(context).data.length) {
-                bottomPadding = 128;
-              }
-              var color = () {
-                if (selectedLevelInApp == indx +1) {
-                  if (selectedDay < level.day) {
-                    return Colors.grey;
-                  } else if (selectedDay == level.day) {
-                    return Colors.lightGreenAccent;
-                  }
-                }
-                return Colors.white;
-
-              };
-              return Padding(
-                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
-                child: MenuSection(
-                  Theme.of(context).secondaryHeaderColor,
-                  Colors.white,
-                  level == selectedLevelInApp ? Colors.lightGreenAccent : null,
-                  level,
-                  (SetLevel level) {
-                    print(level.sets);
-                  },
-                  entryColor: color,
-                ),
-              );
-            }).toList(),
+                .map((set) => generateSetLevelSection(set))
+                .toList(),
           ),
         ],
       )
     ], context: context);
+  }
+
+  Widget generateSetLevelSection(SetLevel set) {
+    int selectedLevelInApp = 2;
+    int selectedDay = 2;
+    int level = set.level;
+    var bottomPadding = 8.0;
+    if (level == Repository.data.length) {
+      bottomPadding = 128;
+    }
+    var colorFunc = (day) {
+      if (selectedLevelInApp == level) {
+        if (selectedDay > day) {
+          return Colors.grey;
+        } else if (selectedDay == day) {
+          return Colors.green;
+        }
+      }
+      else if (selectedLevelInApp > level) {
+        return Colors.grey;
+      }
+      return Colors.white;
+    };
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
+      child: MenuSection(
+        Theme.of(context).secondaryHeaderColor,
+        Colors.white,
+        level == selectedLevelInApp ? Colors.green : null,
+        set,
+        (SetLevel level) {
+          showDialog(context: context, child: AlertDialog());
+        },
+        entryColor: colorFunc,
+      ),
+    );
   }
 }

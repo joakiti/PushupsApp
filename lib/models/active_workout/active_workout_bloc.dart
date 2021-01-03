@@ -31,9 +31,8 @@ class ActiveWorkoutBloc extends Bloc<ActiveWorkoutEvent, ActiveWorkoutState> {
         var currentState = state as Counting;
         yield Pause(currentState.counting, currentState.currentSet);
       }
-
     }
-      else if (event is NotifyPauseFinished) {
+    else if (event is NotifyPauseFinished) {
         var currentState = state as Pause;
         var updateSetIndex = currentState.currentSet + 1;
         yield Counting(workout.set[updateSetIndex], updateSetIndex);

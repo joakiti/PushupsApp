@@ -17,15 +17,13 @@ class PageHelper {
             ),
             EmailTextAsText(),
             Spacer(),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.cog),
-              color: Theme.of(context).primaryColor,
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(
-                  LoggedOut(),
-                );
-              },
-            ),
+            RaisedButton(onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context).add(
+                LoggedOut(),
+              );
+
+            },
+            child: Text("Sign out"),),
             SizedBox(
               width: 10.0,
             )
@@ -48,9 +46,11 @@ class PageHelper {
     return ListView(children: widgets);
   }
 
-  static Widget navBarButton(
-      Color color, String text, Function func, BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  static Widget navBarButton(Color color, String text, Function func,
+      BuildContext context) {
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -85,7 +85,8 @@ class _EmailTextAsTextState extends State<EmailTextAsText> {
   String _textFromFile = "";
 
   _EmailTextAsTextState() {
-    UserRepository().getUser().then((val) => setState(() {
+    UserRepository().getUser().then((val) =>
+        setState(() {
           _textFromFile = val;
         }));
   }

@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/components/pause_timer.dart';
@@ -99,7 +100,79 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
                           ),
                         ),
                       )
-                    ]))
+                    ])),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                            height: 55,
+                            minWidth: 65,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(45.0)),
+                            onPressed: () {
+                              _timerBloc.add(Increment(10));
+                            },
+                            color: Colors.blue,
+                            child: Row(
+                              children: [
+                                Icon(Icons.add_alarm_sharp),
+                                Text("10s")
+                              ],
+                            )),
+                        SizedBox(width: 4,),
+                        BlocBuilder(
+                          bloc: _timerBloc,
+                          builder: (context, state) {
+                            if (state is Paused) {
+                              return FlatButton(
+                                  height: 75,
+                                  minWidth: 75,
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(45.0)),
+                                  onPressed: () {
+                                    _timerBloc.add(Resume());
+                                  },
+                                  color: Colors.black54,
+                                  child: Icon(Icons.play_arrow));
+                            }
+                            return FlatButton(
+                                height: 75,
+                                minWidth: 75,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(45.0)),
+                                onPressed: () {
+                                  _timerBloc.add(PauseTimer());
+                                },
+                                color: Colors.black54,
+                                child: Icon(Icons.pause));
+                          },
+                        ),
+                        SizedBox(width: 4,),
+
+                        FlatButton(
+                            height: 55,
+                            minWidth: 65,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(45.0)),
+                            onPressed: () {
+                              awb.add(NotifyPauseFinished());
+                            },
+                            color: Colors.blue,
+                            child: Row(
+                              children: [
+                                Text(""),
+                                Icon(Icons.arrow_forward_sharp)
+                              ],
+                            )),
+                      ],
+                      alignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                )
               ],
             ),
           ),

@@ -11,6 +11,7 @@ class Start extends ActiveWorkoutEvent {
 }
 
 class Decrement extends ActiveWorkoutEvent {
+
 }
 
 class NotifyPauseFinished extends ActiveWorkoutEvent {

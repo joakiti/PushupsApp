@@ -12,8 +12,7 @@ class WavesBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     RandomWrapper r = new RandomWrapper();
 
-    return WaveWidget(
-      duration: 9999999999,
+    return WaveWidget(wavePhase: 2,
       waveFrequency: 1.3,
       config: CustomConfig(
         gradients: colors.map((c) => [c, c.withOpacity(0.8)]).toList(),

@@ -15,7 +15,7 @@ class NotificationPage extends StatefulWidget with MainPageInterface {
   @override
   buildButton(BuildContext context) {
     return PageHelper.navBarButton(Theme.of(context).secondaryHeaderColor,
-        "SAVE", () => print("Save"), context);
+        "STICK TO IT!", () => print("Save"), context);
   }
 }
 

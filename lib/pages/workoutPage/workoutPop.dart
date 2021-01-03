@@ -9,17 +9,18 @@ abstract class WorkoutPop {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: new Text(RepositoryProvider.of<TextRepository>(context).TAKE_A_CHILL_PILL),
+              title: new Text("You sure?"),
               content: new Text(RepositoryProvider.of<TextRepository>(context).A_FEW_MORE),
               actions: <Widget>[
                 ButtonBar(
                   children: <Widget>[
                     FlatButton(
-                      child: Text(RepositoryProvider.of<TextRepository>(context).LEAVE, style: TextStyleProvider.bold(12)..merge(new TextStyle(color: Colors.redAccent))),
+                      child: Text(RepositoryProvider.of<TextRepository>(context).LEAVE, style: TextStyleProvider.bold(12)),
                       onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
+                      color: Colors.redAccent
                     ),
                     RaisedButton(
                       child: Text(RepositoryProvider.of<TextRepository>(context).STAY, style: TextStyleProvider.bold(12)),

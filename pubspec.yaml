@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_widgets: ^0.1.7+1
   font_awesome_flutter: ^8.5.0
+  shared_preferences: ^0.5.12+4
   rxdart: ^0.22.1+1
   flare_flutter: ^1.8.3
   cloud_firestore: ^0.12.9+4

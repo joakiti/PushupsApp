@@ -220,7 +220,7 @@ class _SectionState extends State<MenuSection>
                                                                       TextAlign
                                                                           .start,
                                                                   style: TextStyle(
-                                                                      color: widget.entryColor(),
+                                                                      color: widget.entryColor(dayOne),
                                                                       fontSize:
                                                                           20.0,
                                                                       fontFamily:
