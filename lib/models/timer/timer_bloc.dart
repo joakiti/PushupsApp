@@ -34,7 +34,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       yield* generateStateResume(event);
     } else if (event is Increment) {
       yield* generateStateIncrement(event);
-    } else if (event is Finished) {
+    } else if (event is End) {
       _tickerSubscription.cancel();
     }
   }

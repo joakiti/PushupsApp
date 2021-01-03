@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/components/level_selection.dart';
+import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/helpers/helpers.dart';
 import 'package:project_nash_equilibrium/interfaces/MainPageInterface.dart';
 import 'package:project_nash_equilibrium/models/repositories/repository.dart';
+import 'package:project_nash_equilibrium/models/repositories/text_repository.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 
 class LevelsPage extends StatefulWidget implements MainPageInterface {
@@ -13,8 +15,30 @@ class LevelsPage extends StatefulWidget implements MainPageInterface {
   @override
   Widget buildButton(BuildContext context) {
     // TODO: implement buildButton
-    return PageHelper.navBarButton(Color.lerp(Theme.of(context).secondaryHeaderColor, Colors.black, 0.9),
-        "PUSH THE LIMITS!", () => {}, context);
+    return PageHelper.navBarButton(
+        Color.lerp(Theme.of(context).secondaryHeaderColor, Colors.black, 0.9),
+        "PUSH THE LIMITS!", () {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text("Not possible yet :-/"),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text(
+                      "Adding levels is not yet possible. Like this app on the app store to get more content!"),
+                )
+              ],
+            );
+          });
+      /**
+       * TODO: Fix this
+          BlocProvider.of<LoginBloc>(context).add(
+          LoginWithGooglePressed(),
+          );
+       **/
+    }, context);
   }
 }
 
@@ -50,34 +74,40 @@ class _LevelsPageState extends State<LevelsPage> {
           SizedBox(
             height: 20,
           ),
-          Column(
-            children: Repository
-                .data
-                .map((set) => generateSetLevelSection(set))
-                .toList(),
+          FutureBuilder(
+            future: Repository.getCurrentLevel(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  return Column(
+                    children: Repository.data
+                        .map((set) => generateSetLevelSection(set, snapshot.data, 1))
+                        .toList(),
+                  );
+                default:
+                  return CircularProgressIndicator();
+              }
+            },
           ),
         ],
       )
     ], context: context);
   }
 
-  Widget generateSetLevelSection(SetLevel set) {
-    int selectedLevelInApp = 2;
-    int selectedDay = 2;
+  Widget generateSetLevelSection(SetLevel set, int selectedLevel, int selectedDay) {
     int level = set.level;
     var bottomPadding = 8.0;
     if (level == Repository.data.length) {
       bottomPadding = 128;
     }
     var colorFunc = (day) {
-      if (selectedLevelInApp == level) {
+      if (selectedLevel == level) {
         if (selectedDay > day) {
           return Colors.grey;
         } else if (selectedDay == day) {
           return Colors.green;
         }
-      }
-      else if (selectedLevelInApp > level) {
+      } else if (selectedLevel > level) {
         return Colors.grey;
       }
       return Colors.white;
@@ -87,10 +117,11 @@ class _LevelsPageState extends State<LevelsPage> {
       child: MenuSection(
         Theme.of(context).secondaryHeaderColor,
         Colors.white,
-        level == selectedLevelInApp ? Colors.green : null,
+        level == selectedLevel ? Colors.green : null,
         set,
-        (SetLevel level) {
-          showDialog(context: context, child: AlertDialog());
+        (day, level) {
+          Repository.setCurrentLevel(level);
+          Repository.setCurrentDay(day);
         },
         entryColor: colorFunc,
       ),

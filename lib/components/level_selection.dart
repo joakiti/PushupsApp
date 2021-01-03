@@ -6,7 +6,7 @@ import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 import "package:flare_flutter/flare_actor.dart" as flare;
 
-typedef NavigateTo(SetLevel item);
+typedef ChangeConfig(int day, int level);
 
 /// This widget displays the single menu section of the [MainMenuWidget].
 ///
@@ -22,7 +22,7 @@ class MenuSection extends StatefulWidget {
   final Color borderColor;
   final Function entryColor;
   final SetLevel setLevel;
-  final NavigateTo navigateTo;
+  final ChangeConfig navigateTo;
 
   MenuSection(
       this.backgroundColor, this.accentColor, this.borderColor, this.setLevel, this.navigateTo,
@@ -190,8 +190,7 @@ class _SectionState extends State<MenuSection>
                                             GestureDetector(
                                                 behavior:
                                                     HitTestBehavior.opaque,
-                                                onTap: () => widget.navigateTo(
-                                                    widget.setLevel),
+                                                onTap: () => widget.navigateTo(dayOne, widget.setLevel.level),
                                                 child: Container(
                                                   height: 35,
                                                   margin: EdgeInsets.only(
@@ -233,8 +232,7 @@ class _SectionState extends State<MenuSection>
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                              color: widget
-                                                                  .accentColor,
+                                                              color: widget.entryColor(dayOne),
                                                               fontSize: 20.0,
                                                               fontFamily:
                                                                   "RobotoMedium"),

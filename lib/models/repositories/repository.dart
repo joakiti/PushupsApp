@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Repository {
   static Future<SetLevel> getSets() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 500));
     SetLevel level = data[await getCurrentLevel()];
     level.activeDay = await getCurrentDay();
     return level;

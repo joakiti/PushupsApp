@@ -30,6 +30,11 @@ class Reset extends TimerEvent {
   String toString() => "Reset";
 }
 
+class End extends TimerEvent {
+  @override
+  String toString() => "Reset";
+}
+
 class Increment extends TimerEvent {
   final int value;
 

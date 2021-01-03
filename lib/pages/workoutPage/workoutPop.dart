@@ -9,7 +9,7 @@ abstract class WorkoutPop {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: new Text("You sure?"),
+              title: new Text("Are you sure you want to cancel?"),
               content: new Text(RepositoryProvider.of<TextRepository>(context).A_FEW_MORE),
               actions: <Widget>[
                 ButtonBar(
@@ -20,14 +20,14 @@ abstract class WorkoutPop {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
-                      color: Colors.redAccent
+                      color: Theme.of(context).primaryColor
                     ),
                     RaisedButton(
                       child: Text(RepositoryProvider.of<TextRepository>(context).STAY, style: TextStyleProvider.bold(12)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      color: Colors.green,
+                      color: Theme.of(context).secondaryHeaderColor,
                     ),
                   ],
                   alignment: MainAxisAlignment.center,

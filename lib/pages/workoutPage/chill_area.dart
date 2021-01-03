@@ -121,7 +121,9 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
                                 Text("10s")
                               ],
                             )),
-                        SizedBox(width: 4,),
+                        SizedBox(
+                          width: 4,
+                        ),
                         BlocBuilder(
                           bloc: _timerBloc,
                           builder: (context, state) {
@@ -151,14 +153,16 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
                                 child: Icon(Icons.pause));
                           },
                         ),
-                        SizedBox(width: 4,),
-
+                        SizedBox(
+                          width: 4,
+                        ),
                         FlatButton(
                             height: 55,
                             minWidth: 65,
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(45.0)),
                             onPressed: () {
+                              _timerBloc.add(End());
                               awb.add(NotifyPauseFinished());
                             },
                             color: Colors.blue,
@@ -210,6 +214,7 @@ class _ChillAreaCardState extends State<ChillAreaCard> with WorkoutPop {
                       create: (BuildContext context) => _timerBloc,
                       child: TimerBreakWidget(
                         onFinish: () {
+                          _timerBloc.add(End());
                           awb.add(NotifyPauseFinished());
                         },
                       ),
