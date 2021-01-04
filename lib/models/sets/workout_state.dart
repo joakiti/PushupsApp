@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:project_nash_equilibrium/models/sets/sets.dart';
+import 'package:project_nash_equilibrium/models/sets/set_level.dart';
+
 
 @immutable
 abstract class WorkoutState extends Equatable {
@@ -12,7 +13,7 @@ class WorkoutInitial extends WorkoutState {}
 class WorkoutLoading extends WorkoutState {}
 
 class WorkoutLoaded extends WorkoutState {
-  final Sets workout;
+  final SetLevel workout;
 
   WorkoutLoaded(this.workout) : super([workout]);
 }

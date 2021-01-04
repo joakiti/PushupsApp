@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Repository {
   static Future<SetLevel> getSets() async {
     await Future.delayed(Duration(milliseconds: 500));
-    SetLevel level = data[await getCurrentLevel()];
+    SetLevel level = data[await getCurrentLevel() - 1];
     level.activeDay = await getCurrentDay();
     return level;
   }
@@ -45,7 +45,7 @@ class Repository {
 
   static final List<SetLevel> data = [
     SetLevel(level: 1, sets: [
-      Sets(set: [2, 3, 6, 7]),
+      Sets(set: [1, 3, 6, 7]),
       Sets(set: [2, 3, 6, 8])
     ]),
     SetLevel(level: 2, sets: [

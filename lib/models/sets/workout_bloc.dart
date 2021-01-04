@@ -9,7 +9,7 @@ import 'package:project_nash_equilibrium/models/repositories/repository.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
-  Sets set;
+  SetLevel set;
 
   @override
   WorkoutState get initialState => WorkoutInitial();
@@ -22,7 +22,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     if (event is GetWorkout) {
       yield WorkoutLoading();
       final SetLevel workout = await Repository.getSets();
-      this.set = workout.sets[workout.activeDay];
+      this.set = workout;
       yield WorkoutLoaded(this.set);
     }
   }

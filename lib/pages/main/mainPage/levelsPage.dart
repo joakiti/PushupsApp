@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_nash_equilibrium/components/level_selection.dart';
-import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/helpers/helpers.dart';
 import 'package:project_nash_equilibrium/interfaces/MainPageInterface.dart';
 import 'package:project_nash_equilibrium/models/repositories/repository.dart';
-import 'package:project_nash_equilibrium/models/repositories/text_repository.dart';
+import 'package:project_nash_equilibrium/models/sets/bloc.dart';
 import 'package:project_nash_equilibrium/models/sets/set_level.dart';
+import 'package:project_nash_equilibrium/models/sets/workout_bloc.dart';
 
 class LevelsPage extends StatefulWidget implements MainPageInterface {
   @override
@@ -44,6 +44,12 @@ class LevelsPage extends StatefulWidget implements MainPageInterface {
 
 class _LevelsPageState extends State<LevelsPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PageHelper.buildPageViewPage(widgets: [
       Column(
@@ -76,17 +82,23 @@ class _LevelsPageState extends State<LevelsPage> {
           ),
           FutureBuilder(
             future: Repository.getCurrentLevel(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  return Column(
-                    children: Repository.data
-                        .map((set) => generateSetLevelSection(set, snapshot.data, 1))
-                        .toList(),
-                  );
-                default:
-                  return CircularProgressIndicator();
-              }
+            builder: (context, level) {
+              if (level.hasData) {
+                return FutureBuilder(
+                    future: Repository.getCurrentDay(),
+                    builder: (context, day) {
+                      if (day.hasData) {
+                        return Column(
+                          children: Repository.data
+                              .map((set) => generateSetLevelSection(
+                                  set, level.data, day.data))
+                              .toList(),
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    });
+              } else
+                return CircularProgressIndicator();
             },
           ),
         ],
@@ -94,7 +106,8 @@ class _LevelsPageState extends State<LevelsPage> {
     ], context: context);
   }
 
-  Widget generateSetLevelSection(SetLevel set, int selectedLevel, int selectedDay) {
+  Widget generateSetLevelSection(
+      SetLevel set, int selectedLevel, int selectedDay) {
     int level = set.level;
     var bottomPadding = 8.0;
     if (level == Repository.data.length) {
@@ -119,9 +132,10 @@ class _LevelsPageState extends State<LevelsPage> {
         Colors.white,
         level == selectedLevel ? Colors.green : null,
         set,
-        (day, level) {
+        (day, level) async {
           Repository.setCurrentLevel(level);
           Repository.setCurrentDay(day);
+          BlocProvider.of<WorkoutBloc>(context).add(GetWorkout());
         },
         entryColor: colorFunc,
       ),

@@ -5,6 +5,7 @@ import 'package:project_nash_equilibrium/interfaces/MainPageInterface.dart';
 import 'package:project_nash_equilibrium/models/active_workout/active_workout_bloc.dart';
 import 'package:project_nash_equilibrium/models/sets/bloc.dart';
 import 'package:project_nash_equilibrium/models/sets/sets.dart';
+import 'package:project_nash_equilibrium/models/sets/set_level.dart';
 import 'package:project_nash_equilibrium/pages/workoutPage/workoutPage.dart';
 
 class SetPage extends StatefulWidget with MainPageInterface {
@@ -23,7 +24,10 @@ class SetPage extends StatefulWidget with MainPageInterface {
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     BlocProvider.value(
                         value: ActiveWorkoutBloc(
-                            workout: BlocProvider.of<WorkoutBloc>(context).set),
+                            workout: () {
+                              var workout = BlocProvider.of<WorkoutBloc>(context).set;
+                              return workout.sets[workout.activeDay - 1];
+                            }()),
                         child: WorkoutPage()),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
@@ -78,7 +82,7 @@ class _SetPageState extends State<SetPage>
     );
   }
 
-  Widget buildBody(BuildContext context, Sets sets) {
+  Widget buildBody(BuildContext context, SetLevel sets) {
     return PageHelper.buildPageViewPage(context: context, widgets: <Widget>[
       SizedBox(
         height: 20,
@@ -116,7 +120,7 @@ class _SetPageState extends State<SetPage>
     ]);
   }
 
-  Container buildPushUpCard(BuildContext context, Sets sets) {
+  Container buildPushUpCard(BuildContext context, SetLevel sets) {
     return Container(
       height: 150,
       margin: EdgeInsets.only(left: 17, right: 17, top: 10),
@@ -136,7 +140,7 @@ class _SetPageState extends State<SetPage>
     );
   }
 
-  Expanded buildCardBody(BuildContext context, Sets sets) {
+  Expanded buildCardBody(BuildContext context, SetLevel sets) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -146,7 +150,7 @@ class _SetPageState extends State<SetPage>
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: FittedBox(
           fit: BoxFit.fitWidth,
-          child: Text(sets.toString(),
+          child: Text(sets.sets[sets.activeDay - 1].toString(),
               style: TextStyle(fontSize: 35, color: Colors.white)),
         ),
         //From: https://medium.com/jlouage/container-de5b0d3ad184
@@ -155,7 +159,7 @@ class _SetPageState extends State<SetPage>
     );
   }
 
-  Row buildCardHeader(BuildContext context, Sets sets) {
+  Row buildCardHeader(BuildContext context, SetLevel sets) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -163,7 +167,7 @@ class _SetPageState extends State<SetPage>
             SizedBox(height: 5),
             Align(
               alignment: Alignment.centerRight,
-              child: Text(sets.total.toString() + " PUSH UPS",
+              child: Text(sets.sets[sets.activeDay - 1].total.toString() + " PUSH UPS",
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: 20,
@@ -184,7 +188,7 @@ class _SetPageState extends State<SetPage>
           child: Align(
             alignment: Alignment.center,
             child: Padding(
-              child: Text("LEVEL " + "2",//sets.level.toString(),
+              child: Text("LEVEL " + sets.level.toString(),//sets.level.toString(),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,

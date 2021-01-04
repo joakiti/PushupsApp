@@ -20,11 +20,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   PageController controller;
 
-  List<MainPageInterface> get pages => [NotificationPage(), SetPage(), LevelsPage(), HistoryPage()];
+  List<MainPageInterface> get pages =>
+      [NotificationPage(), SetPage(), LevelsPage(), HistoryPage()];
 
   @override
   void initState() {
-    controller = PageController(initialPage: BlocProvider.of<MainPageBloc>(context).state.index);
+    controller = PageController(
+        initialPage: BlocProvider.of<MainPageBloc>(context).state.index);
     super.initState();
   }
 
@@ -41,9 +43,7 @@ class _MainPageState extends State<MainPage> {
             selectedItemColor: Theme.of(context).primaryColor,
             unselectedItemColor: Theme.of(context).textTheme.caption.color,
             currentIndex: index,
-            onTap: (int) => {
-                  controller.jumpToPage(int)
-                },
+            onTap: (int) => {controller.jumpToPage(int)},
             items: [
               BottomNavigationBarItem(
                   title: Text("Notifications"),
@@ -77,7 +77,6 @@ class _MainPageState extends State<MainPage> {
                   child: BlocBuilder(
                     bloc: BlocProvider.of<MainPageBloc>(context),
                     builder: (BuildContext context, MainPageState state) {
-
                       MainPageState state =
                           BlocProvider.of<MainPageBloc>(context).state;
                       return pages[state.index].buildButton(context);
