@@ -80,25 +80,18 @@ class _LevelsPageState extends State<LevelsPage> {
           SizedBox(
             height: 20,
           ),
-          FutureBuilder(
-            future: Repository.getCurrentLevel(),
-            builder: (context, level) {
-              if (level.hasData) {
-                return FutureBuilder(
-                    future: Repository.getCurrentDay(),
-                    builder: (context, day) {
-                      if (day.hasData) {
-                        return Column(
-                          children: Repository.data
-                              .map((set) => generateSetLevelSection(
-                                  set, level.data, day.data))
-                              .toList(),
-                        );
-                      }
-                      return CircularProgressIndicator();
-                    });
-              } else
+          BlocBuilder(
+            bloc: BlocProvider.of<WorkoutBloc>(context),
+            builder: (context, state) {
+              if (state is WorkoutLoaded) {
+                return Column(
+                    children: Repository.data
+                        .map((set) => generateSetLevelSection(
+                            set, state.workout.level, state.workout.activeDay))
+                        .toList());
+              } else {
                 return CircularProgressIndicator();
+              }
             },
           ),
         ],
@@ -125,20 +118,37 @@ class _LevelsPageState extends State<LevelsPage> {
       }
       return Colors.white;
     };
-    return Padding(
-      padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
-      child: MenuSection(
-        Theme.of(context).secondaryHeaderColor,
-        Colors.white,
-        level == selectedLevel ? Colors.green : null,
-        set,
-        (day, level) async {
-          Repository.setCurrentLevel(level);
-          Repository.setCurrentDay(day);
-          BlocProvider.of<WorkoutBloc>(context).add(GetWorkout());
-        },
-        entryColor: colorFunc,
-      ),
+    return BlocBuilder(
+      condition: (previous, current) {
+        if (current is WorkoutLoaded) {
+          if (current.workout.level == level) {
+            return true;
+          }
+        }
+        return false;
+      },
+      bloc: BlocProvider.of<WorkoutBloc>(context),
+      builder: (context, state) {
+        if (state is WorkoutLoaded) {
+          return Padding(
+            padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
+            child: MenuSection(
+              Theme.of(context).secondaryHeaderColor,
+              Colors.white,
+              level == state.workout.level ? Colors.green : null,
+              set,
+              (day, level) async {
+                Repository.setCurrentLevel(level);
+                Repository.setCurrentDay(day);
+                BlocProvider.of<WorkoutBloc>(context).add(GetWorkout());
+              },
+              entryColor: colorFunc,
+            ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }

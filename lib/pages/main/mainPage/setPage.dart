@@ -188,12 +188,21 @@ class _SetPageState extends State<SetPage>
           child: Align(
             alignment: Alignment.center,
             child: Padding(
-              child: Text("LEVEL " + sets.level.toString(),//sets.level.toString(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 30,
-                      color: Theme.of(context).primaryColor)),
+              child: Column(
+                children: [
+                  Text("LEVEL " + sets.level.toString(),//sets.level.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 30,
+                          color: Theme.of(context).primaryColor)),
+                  Text("Day " + sets.activeDay.toString(),//sets.level.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.white)),
+                ],
+              ),
               padding: EdgeInsets.only(top: 5, right: 10),
             ),
           ),

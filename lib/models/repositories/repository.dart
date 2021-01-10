@@ -11,6 +11,22 @@ class Repository {
     return level;
   }
 
+  static Future increaseToNextDayOrLevel() async {
+    SetLevel level = data[await getCurrentLevel() - 1];
+    int activeDay = await getCurrentDay();
+    int nextLevel = level.level;
+    int nextDay = activeDay;
+    if (activeDay == level.sets.length &&  level.level - 1 <= data.length) {
+      nextLevel++;
+      nextDay = 1;
+    }
+    else if (activeDay - 1 < level.sets.length) {
+      nextDay++;
+    }
+    setCurrentLevel(nextLevel);
+    setCurrentDay(nextDay);
+  }
+
   static Future setCurrentLevel(int level) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setInt('level', level);

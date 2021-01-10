@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:project_nash_equilibrium/helpers/TextStyleProvider.dart';
 import 'package:project_nash_equilibrium/helpers/colors.dart';
 import 'package:project_nash_equilibrium/models/active_workout/bloc.dart';
+import 'package:project_nash_equilibrium/models/sets/workout_bloc.dart';
+import 'package:project_nash_equilibrium/models/sets/workout_event.dart';
 import 'package:project_nash_equilibrium/pages/workoutPage/workoutPop.dart';
 
 import 'chill_area.dart';
@@ -32,6 +34,7 @@ class _WorkoutPageState extends State<WorkoutPage> with WorkoutPop {
             }));
           }
           if (state is WorkoutFinished) {
+            BlocProvider.of<WorkoutBloc>(context).add(FinishedWorkout());
             Navigator.pop(context, ["Finish"]);
             /**
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

@@ -25,5 +25,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       this.set = workout;
       yield WorkoutLoaded(this.set);
     }
+    if (event is FinishedWorkout) {
+      yield WorkoutLoading();
+      await Repository.increaseToNextDayOrLevel();
+      add(GetWorkout());
+    }
   }
 }

@@ -7,3 +7,4 @@ abstract class WorkoutEvent extends Equatable {
 }
 
 class GetWorkout extends WorkoutEvent {}
+class FinishedWorkout extends WorkoutEvent {}
