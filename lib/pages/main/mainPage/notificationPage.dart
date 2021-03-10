@@ -7,15 +7,44 @@ import 'package:project_nash_equilibrium/models/notifications/bloc.dart';
 import 'package:project_nash_equilibrium/models/notifications/notification.dart';
 
 class NotificationPage extends StatefulWidget with MainPageInterface {
-  @override
-  _NotificationPageState createState() => _NotificationPageState();
 
-  final FlutterTts flutterTts = new FlutterTts();
+  _NotificationPageState state;
+
+  /**
+   * Ugly, but will have to make do..
+   */
+  @override
+  _NotificationPageState createState() {
+    this.state = new _NotificationPageState();
+    return state;
+  }
 
   @override
   buildButton(BuildContext context) {
-    return PageHelper.navBarButton(Theme.of(context).secondaryHeaderColor,
-        "STICK TO IT!", () => print("Save"), context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              Flexible(child: RaisedButton(onPressed: null, child: Text("Mo")),),
+              Flexible(child: RaisedButton(
+                  onPressed: () => state.selectedDay(1), child: Text("Tu"))),
+              Flexible(child: RaisedButton(onPressed: null, child: Text("We"))),
+              Flexible(child: RaisedButton(onPressed: null, child: Text("Th"))),
+              Flexible(child: RaisedButton(onPressed: null, child: Text("Fr"))),
+              Flexible(child: RaisedButton(onPressed: null, child: Text("Sa"))),
+              Flexible(child: RaisedButton(onPressed: null, child: Text("Su"))),
+
+            ],
+          ),
+        ),
+        PageHelper.navBarButton(Theme.of(context).secondaryHeaderColor,
+            "STICK TO IT!", () => print("Save"), context),
+      ],
+    );
   }
 }
 
@@ -56,6 +85,10 @@ class _NotificationPageState extends State<NotificationPage>
   @override
   void initState() {
     super.initState();
+  }
+
+  void selectedDay(int day) {
+    print(day);
   }
 
   //TODO: Consider if state management is correct
@@ -258,4 +291,5 @@ class _NotificationPageState extends State<NotificationPage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
 }

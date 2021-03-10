@@ -7,6 +7,8 @@ import '../register_screen.dart';
 class LostPasswordButton extends StatelessWidget {
   final UserRepository _userRepository;
 
+  final textController = TextEditingController();
+
   LostPasswordButton({@required UserRepository userRepo})
       : _userRepository = userRepo;
 
@@ -25,8 +27,13 @@ class LostPasswordButton extends StatelessWidget {
                   return SimpleDialog(
                     title: Text("Password reset"),
                     children: <Widget>[
-                      Text("Type in your e-mail, and we'll send you a reset link")
-
+                      Text("Type in your e-mail, and we'll send you a reset link"),
+                      TextField(controller: textController),
+                      FlatButton(onPressed: () {
+                            _userRepository.resetUserPassword(textController.text);
+                            Navigator.of(context).pop();
+                            },
+                          child: Text("Submit"))
                     ],
                   );
                 });
